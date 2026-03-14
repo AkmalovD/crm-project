@@ -1,8 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f3f5fb;
+  --foreground: #17223b;
+  --panel: #ffffff;
+  --border: #e7ebf3;
+  --soft-text: #64748b;
+  --primary: #5b61f6;
 }
 
 @theme inline {
@@ -12,15 +16,313 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), "Segoe UI", sans-serif;
+}
+
+.dashboard-shell {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: 270px minmax(0, 1fr);
+}
+
+.dashboard-sidebar {
+  border-right: 1px solid var(--border);
+  background: #fafbff;
+}
+
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 18px 20px 24px;
+}
+
+.dashboard-topbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 360px) 1fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.dashboard-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel);
+  padding: 0 12px;
+  height: 40px;
+}
+
+.dashboard-search input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font-size: 14px;
+  color: #1e293b;
+  outline: none;
+}
+
+.dashboard-topbar-actions {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dashboard-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: #64748b;
+  font-size: 14px;
+}
+
+.dashboard-user-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: #1f2937;
+  font-size: 14px;
+}
+
+.dashboard-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  font-size: 10px;
+  color: #374151;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.dashboard-content-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.dashboard-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.dashboard-select select {
+  border: 0;
+  background: transparent;
+  color: #475569;
+  font-size: 14px;
+  outline: none;
+}
+
+.dashboard-add-order {
+  height: 38px;
+  border-radius: 10px;
+  border: 0;
+  background: var(--primary);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 14px;
+  box-shadow: 0 8px 20px rgba(91, 97, 246, 0.25);
+}
+
+.dashboard-orders-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.dashboard-orders-header {
+  padding: 18px 20px 8px;
+}
+
+.dashboard-orders-header h1 {
+  font-size: 34px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #131d35;
+}
+
+.dashboard-orders-subheader {
+  padding: 10px 20px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboard-orders-subheader h2 {
+  font-size: 30px;
+  font-weight: 700;
+  color: #1f2a44;
+}
+
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1080px;
+}
+
+.dashboard-table thead th {
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+  font-weight: 700;
+  padding: 12px 10px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.dashboard-table thead th:first-child,
+.dashboard-table tbody td:first-child {
+  padding-left: 18px;
+}
+
+.dashboard-table tbody td {
+  font-size: 14px;
+  color: #64748b;
+  padding: 11px 10px;
+  border-bottom: 1px solid #edf1f7;
+  white-space: nowrap;
+}
+
+.dashboard-table tbody tr.is-selected {
+  background: #f4f5ff;
+}
+
+.dashboard-customer-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  color: #475569;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.dashboard-status {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.dashboard-status-approved {
+  background: #e8fbf4;
+  color: #05a17c;
+}
+
+.dashboard-status-refunded {
+  background: #fff6db;
+  color: #c28d00;
+}
+
+.dashboard-status-unpaid {
+  background: #ffe8ef;
+  color: #d0446c;
+}
+
+.dashboard-table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 26px;
+  padding: 14px 18px;
+  color: var(--soft-text);
+}
+
+.dashboard-pager-button {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 10px;
+}
+
+.dashboard-pager-button:disabled {
+  opacity: 0.45;
+}
+
+@media (max-width: 1180px) {
+  .dashboard-shell {
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+
+  .dashboard-sidebar nav,
+  .dashboard-sidebar h3,
+  .dashboard-sidebar .text-2xl {
+    display: none;
+  }
+
+  .dashboard-sidebar {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboard-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-sidebar {
+    display: none;
+  }
+
+  .dashboard-main {
+    padding: 12px;
+  }
+
+  .dashboard-topbar {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-topbar-actions,
+  .dashboard-content-actions {
+    justify-self: stretch;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .dashboard-orders-header h1 {
+    font-size: 28px;
+  }
+
+  .dashboard-orders-subheader h2 {
+    font-size: 24px;
+  }
 }
