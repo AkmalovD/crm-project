@@ -4,8 +4,8 @@ import { useMemo, useState } from "react";
 
 import { mockOrders } from "@/data/mockOrders";
 
+import { DashboardScaffold } from "./DashboardScaffold";
 import { OrdersTable } from "./OrdersTable";
-import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
 
 type StatusFilter = "All" | "Approved" | "Refunded" | "Unpaid";
@@ -88,9 +88,7 @@ export function OrdersDashboardPage() {
   };
 
   return (
-    <div className="dashboard-shell">
-      <Sidebar />
-      <main className="dashboard-main">
+    <DashboardScaffold>
         <Topbar
           search={search}
           status={status}
@@ -110,7 +108,6 @@ export function OrdersDashboardPage() {
           onPageChange={handlePageChange}
           onPageSizeChange={handlePageSizeChange}
         />
-      </main>
-    </div>
+    </DashboardScaffold>
   );
 }
