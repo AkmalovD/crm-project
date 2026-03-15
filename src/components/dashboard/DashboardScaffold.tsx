@@ -1,20 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Sidebar } from "../../layouts/Sidebar";
 
 const SIDEBAR_STORAGE_KEY = "dashboard.sidebar.open";
 
 export function DashboardScaffold({ children }: { children: React.ReactNode }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
-  useEffect(() => {
-    const stored = window.localStorage.getItem(SIDEBAR_STORAGE_KEY);
-    if (stored === "0") {
-      setIsSidebarOpen(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    if (typeof window === "undefined") {
+      return true;
     }
-  }, []);
+    return window.localStorage.getItem(SIDEBAR_STORAGE_KEY) !== "0";
+  });
 
   const handleToggleSidebar = () => {
     setIsSidebarOpen((previous) => {
