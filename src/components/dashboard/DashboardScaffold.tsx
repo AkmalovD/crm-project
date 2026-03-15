@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { Sidebar } from "./Sidebar";
+import { Sidebar } from "../../layouts/Sidebar";
 
 const SIDEBAR_STORAGE_KEY = "dashboard.sidebar.open";
 
