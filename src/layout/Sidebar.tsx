@@ -99,7 +99,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside className={`dashboard-sidebar flex h-screen min-h-0 flex-col ${isOpen ? "is-open" : "is-collapsed"}`}>
+    <aside className={`dashboard-sidebar flex h-full min-h-0 flex-col ${isOpen ? "is-open" : "is-collapsed"}`}>
       <div className="flex items-center justify-between gap-2 px-4 py-4">
         <Link href="/dashboard" className={`flex items-center gap-2 overflow-hidden ${!isOpen ? "hidden" : ""}`}>
           <Hospital size={20} color="#4acf7f" />

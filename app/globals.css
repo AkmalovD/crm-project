@@ -25,7 +25,8 @@ body {
 
 .dashboard-shell {
   display: grid;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   grid-template-columns: var(--sidebar-width, 200px) minmax(0, 1fr);
 }
 
@@ -60,6 +61,8 @@ body {
   flex-direction: column;
   gap: 20px;
   padding: 18px 20px 24px;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 .dashboard-topbar {
