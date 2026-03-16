@@ -1,0 +1,45 @@
+# Architecture Rules
+
+## Component Organization
+- Shared, reusable UI primitives (Button, Input, Modal, Badge, etc.) go in `/components/ui/`
+- Layout components (PageWrapper, Sidebar, Header) go in `/components/layout/`
+- Feature-specific components stay co-located: `/features/<feature-name>/components/`
+- Never put business logic or API calls inside UI components — keep them dumb
+
+## When to Create a Shared Component
+- Only abstract into `/components/ui/` when a pattern appears 2+ times across different features
+- On first use, build it locally in the feature folder
+- On second use in a different feature, move it to shared
+
+## Component Rules
+- UI components receive all data via props — no direct API calls, no zustand/context reads
+- Use TypeScript interfaces for all props, defined in the same file
+- Export a single default component per file
+- Keep components focused: if a component has more than ~150 lines, consider splitting
+
+## File Naming
+- Components: PascalCase (`UserCard.tsx`)
+- Hooks: camelCase with `use` prefix (`useUserData.ts`)
+- Utils: camelCase (`formatDate.ts`)
+- Feature folders: kebab-case (`user-profile/`)
+
+## Folder Structure
+src/
+  app/                  # Next.js app router pages
+  components/
+    ui/                 # Shared primitives (Button, Input, etc.)
+    layout/             # Shared layout components
+  features/
+    <feature>/
+      components/       # Feature-specific UI
+      hooks/            # Feature-specific hooks
+      utils/            # Feature-specific helpers
+      types.ts          # Feature types
+  hooks/                # Shared hooks
+  lib/                  # Shared utilities, API clients
+  types/                # Global types
+
+## General
+- Prefer composition over configuration — small focused components over one mega-flexible one
+- Co-locate related files: a component, its hook, and its types can live together
+- Avoid prop drilling more than 2 levels — use context or lift state

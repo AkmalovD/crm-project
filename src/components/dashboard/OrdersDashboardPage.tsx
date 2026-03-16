@@ -6,7 +6,7 @@ import { mockOrders } from "@/data/mockOrders";
 
 import { DashboardScaffold } from "./DashboardScaffold";
 import { OrdersTable } from "./OrdersTable";
-import { Topbar } from "../../layouts/Topbar";
+import { Topbar } from "../../layout/Topbar";
 
 type StatusFilter = "All" | "Approved" | "Refunded" | "Unpaid";
 type DateRangeFilter = "7d" | "30d" | "90d";
