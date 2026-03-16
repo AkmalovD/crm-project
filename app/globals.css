@@ -25,11 +25,11 @@ body {
 .dashboard-shell {
   display: grid;
   min-height: 100vh;
-  grid-template-columns: var(--sidebar-width, 270px) minmax(0, 1fr);
+  grid-template-columns: var(--sidebar-width, 200px) minmax(0, 1fr);
 }
 
 .dashboard-shell.sidebar-open {
-  --sidebar-width: 270px;
+  --sidebar-width: 200px;
 }
 
 .dashboard-shell.sidebar-closed {
