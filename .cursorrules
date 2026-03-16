@@ -1,45 +1,269 @@
-# Architecture Rules
+# Cursor Rules — Next.js + React Enterprise Application
 
-## Component Organization
-- Shared, reusable UI primitives (Button, Input, Modal, Badge, etc.) go in `/components/ui/`
-- Layout components (PageWrapper, Sidebar, Header) go in `/components/layout/`
-- Feature-specific components stay co-located: `/features/<feature-name>/components/`
-- Never put business logic or API calls inside UI components — keep them dumb
+## Tech Stack
 
-## When to Create a Shared Component
-- Only abstract into `/components/ui/` when a pattern appears 2+ times across different features
-- On first use, build it locally in the feature folder
-- On second use in a different feature, move it to shared
+- **Framework**: Next.js (App Router) + React + TypeScript
+- **Styling**: Tailwind CSS + shadcn/ui (new-york style) + class-variance-authority (CVA)
+- **State Management**: Zustand (complex client state) + TanStack React Query (server state)
+- **Forms**: React Hook Form + Zod
+- **Tables**: TanStack Table
+- **API Client**: Axios with interceptors
+- **Icons**: Lucide React
+- **Toasts**: Sonner
+- **Package Manager**: npm
 
-## Component Rules
-- UI components receive all data via props — no direct API calls, no zustand/context reads
-- Use TypeScript interfaces for all props, defined in the same file
-- Export a single default component per file
-- Keep components focused: if a component has more than ~150 lines, consider splitting
+---
 
-## File Naming
-- Components: PascalCase (`UserCard.tsx`)
-- Hooks: camelCase with `use` prefix (`useUserData.ts`)
-- Utils: camelCase (`formatDate.ts`)
-- Feature folders: kebab-case (`user-profile/`)
+## Architecture Principles
 
-## Folder Structure
-src/
-  app/                  # Next.js app router pages
-  components/
-    ui/                 # Shared primitives (Button, Input, etc.)
-    layout/             # Shared layout components
-  features/
-    <feature>/
-      components/       # Feature-specific UI
-      hooks/            # Feature-specific hooks
-      utils/            # Feature-specific helpers
-      types.ts          # Feature types
-  hooks/                # Shared hooks
-  lib/                  # Shared utilities, API clients
-  types/                # Global types
+### Server vs Client Components
 
-## General
-- Prefer composition over configuration — small focused components over one mega-flexible one
-- Co-locate related files: a component, its hook, and its types can live together
-- Avoid prop drilling more than 2 levels — use context or lift state
+- Default to Server Components. Only add `'use client'` when the component uses hooks, browser APIs, event handlers, or client-only libraries.
+- Push `'use client'` boundaries as deep as possible — keep parent components on the server.
+- Server Components fetch data directly. Client Components use React Query.
+
+### App Router Conventions
+
+- Use **route groups** to separate layout contexts (e.g., auth pages vs main app pages).
+- Multi-step/wizard flows get their own `layout.tsx` to provide step navigation without the main shell.
+- Use `loading.tsx` per route segment for automatic Suspense boundaries.
+- Use `error.tsx` per route segment for error boundaries.
+- Define a centralized `paths` object for all route strings — never hardcode paths in components.
+- Use `next/navigation` APIs (`useRouter`, `usePathname`, `useSearchParams`, `redirect`).
+
+### Layout Hierarchy
+
+- **Root layout**: wraps providers (QueryClient, Theme, i18n). Zustand stores require no provider.
+- **Auth layout**: minimal, no navigation chrome.
+- **Dashboard layout**: sidebar/nav + auth guard + scroll area.
+- **Feature layouts**: wizard step navigation, nested within dashboard.
+
+---
+
+## State Management
+
+### When to Use What
+
+| Use Case | Tool |
+|----------|------|
+| Server data (lists, details, search) | React Query |
+| Multi-step wizard form data across routes | Zustand |
+| UI state shared across distant components (modals, sidebar) | Zustand |
+| Local component state | `useState` / `useReducer` |
+| Filter/pagination state | URL search params (`useSearchParams`) |
+| Auth user data after initial fetch | Zustand |
+
+### React Query Conventions
+
+- Create domain-specific hooks that wrap `useQuery` / `useMutation` (e.g., `useClients`, `useCreateClient`).
+- Define query key constants per domain as arrays (e.g., `['clients', params]`).
+- Invalidate related queries after mutations.
+- Handle errors in `onError` with toast notifications using the server error message.
+- Use `staleTime` / `gcTime` overrides only when needed.
+
+### Zustand Conventions
+
+- One store per domain (e.g., `useModalStore`, `useWizardStore`, `useAuthStore`).
+- Define stores with `create` from Zustand. Use the `immer` middleware for nested state updates.
+- Colocate actions inside the store — no separate dispatch or thunk layer.
+- Export custom selector hooks for derived data (e.g., `useCurrentStep`, `useIsAuthenticated`).
+- Use `subscribeWithSelector` middleware when components need fine-grained subscriptions.
+- Every wizard/multi-step flow store has a `reset` action to clear state when leaving the wizard.
+- Use `persist` middleware only when state must survive page reloads (e.g., auth tokens).
+
+---
+
+## Component Patterns
+
+### shadcn/ui Primitives
+
+- Generated via CLI, stored in a `ui/` directory.
+- Thin wrappers around Radix UI, using `cn()` for className merging.
+- Use CVA for variant-driven components (buttons, badges, inputs).
+- Use `data-slot` attributes for stable styling/testing hooks.
+
+### Custom Wrapper Components
+
+- Extend shadcn primitives with domain logic (debounce, formatting, loading spinners, clear buttons).
+- Always accept and merge a `className` prop via `cn()`.
+- Barrel-export from `index.ts` files.
+
+### DataTable
+
+- Generic `DataTable<TData>` wrapping TanStack Table + shadcn Table.
+- Column definitions live alongside their page, not globally.
+- Support skeleton loading rows, footer slots, header content slots.
+- Pagination is a separate component synced with URL search params.
+
+### Filter Popovers
+
+- Wrap a `Popover` around a React Hook Form `<Form>`.
+- Each filter field is a `FormField`.
+- Sync values to/from URL search params on apply/reset.
+
+### Modals/Dialogs
+
+- Use shadcn `Dialog` or a custom centered modal wrapper.
+- Manage app-wide modal open/close state in a Zustand `useModalStore`.
+- Confirmation dialogs accept `open`, `onClose`, `onConfirm` props.
+
+### Page Layout Pattern
+
+List pages:
+1. `useFilterAndPagination` hook + domain query hook.
+2. TanStack Table instance.
+3. Render: PageHeader → Filters → DataTable → Pagination.
+
+Create/Edit pages:
+1. React Hook Form + Zod resolver.
+2. Mutation hook.
+3. Render: PageHeader → Form fields → Submit/Cancel buttons.
+
+Wizard pages:
+1. Read accumulated state from the Zustand wizard store.
+2. Local form for the current step.
+3. On submit: update Zustand store → navigate to next step.
+4. Reset hook calls the store's `reset` action when leaving the wizard.
+
+### PageHeader
+
+- Reusable header component with variants: default, with back button, with border.
+- Props: `title`, `rightContent` slot, `onBack`.
+- Used on every page for visual consistency.
+
+---
+
+## Form Patterns
+
+- Always pair React Hook Form with Zod via `@hookform/resolvers`.
+- Zod schemas live in a dedicated `validators/` directory, organized by domain.
+- Reuse schemas with `.extend()`, `.merge()`, `.pick()`, `.omit()`.
+- Use `.refine()` / `.superRefine()` for cross-field validation.
+- Separate create vs edit schemas when fields differ.
+- Always use the `Form` → `FormField` → `FormItem` → `FormLabel` → `FormControl` → `FormMessage` composition from shadcn/ui.
+
+---
+
+## API Layer
+
+### Axios Client
+
+- Singleton class with versioned instances (v1, v2) if your API has multiple versions.
+- **Request interceptor**: attach `Authorization: Bearer <token>`.
+- **Response interceptor**: on 401 → refresh token → retry → redirect to login on failure.
+- Generic typed methods: `get<T>`, `post<T>`, `put<T>`, `patch<T>`, `delete<T>`.
+
+### API Modules
+
+- One file per domain (e.g., clients, contracts, cars).
+- Each method returns a typed response.
+- Helpers: `buildParams()` to strip undefined/null from query objects, `normalizeBodyValues()` to convert empty strings to null.
+
+---
+
+## Authentication & Authorization
+
+### Auth Flow
+
+1. Login → PKCE code challenge → redirect to identity provider.
+2. Callback → exchange code for tokens → store securely (prefer httpOnly cookies in Next.js for SSR).
+3. Dashboard layout checks token presence → redirect to login if missing.
+4. Axios interceptor handles 401 → token refresh → retry → logout on failure.
+
+### Role-Based Access Control
+
+- Define a role enum with all application roles.
+- `ProtectedRoute` component: wraps routes, accepts `allowedRoles`, redirects or shows "Access Denied".
+- `AccessControl` component: conditionally renders children based on current user role.
+- Sidebar/nav items declare `allowedRoles` and visibility rules — hidden when user lacks access.
+- `useIsAccessByRole(role)` hook for imperative role checks.
+
+---
+
+## Styling Rules
+
+- **Tailwind only** — no CSS modules, no styled-components, no inline styles.
+- Define theme colors as CSS variables in `globals.css`, reference via Tailwind classes (`bg-primary`, `text-muted-foreground`, etc.).
+- Always merge classNames with `cn()` (clsx + tailwind-merge).
+- Use CVA for components with multiple visual variants.
+- Responsive design via Tailwind breakpoints (`sm:`, `md:`, `lg:`, `xl:`).
+- Animations via `tailwindcss-animate` (`animate-in`, `fade-in`, `slide-in-from-*`).
+
+---
+
+## TypeScript Conventions
+
+- Strict mode: `strict: true`, `noUnusedLocals`, `noUnusedParameters`.
+- Path alias: `@/*` → `src/*`.
+- Prefer `interface` for component props and object shapes. Use `type` for unions and utility types.
+- Extend native HTML attributes for input wrappers, use `Omit<>` when overriding native props.
+- Define shared base types: `WithId`, `ServerResponse<T>`, `ResponseByPagination<T>`, `Option`.
+- Use generics for reusable components (`DataTable<TData>`, `List<T extends WithId>`).
+- Avoid `any` — use `unknown` and narrow, or document the reason.
+
+---
+
+## Code Quality
+
+### Formatting
+
+- Prettier: 2-space indent, single quotes, no semicolons, 120 print width, `prettier-plugin-tailwindcss`.
+- Husky + lint-staged: auto-format and lint on pre-commit.
+
+### ESLint
+
+- TypeScript ESLint recommended.
+- `react-hooks` plugin (exhaustive-deps, rules of hooks).
+- Warn on non-component exports from files with components (react-refresh).
+
+### Code Organization
+
+- Extract business logic into hooks, services, or utils — components should focus on rendering.
+- Domain hooks for data fetching — components never call API modules directly.
+- Centralize types, constants, and validators by domain.
+- Use barrel exports (`index.ts`) for component directories.
+
+---
+
+## Error Handling
+
+- Global `ErrorBoundary` at the app root + Next.js `error.tsx` per route segment.
+- Toast notifications (Sonner) for user-facing success/error feedback.
+- Mutation `onError`: extract `error.response?.data?.message`, fall back to a generic message.
+- Never swallow errors silently — always log or notify.
+
+### Loading States
+
+- Skeleton rows in tables during data fetching.
+- `loading.tsx` per route for navigation transitions.
+- Spinner icons on buttons during mutation pending state.
+- Loading indicators in select/combobox components during option fetching.
+
+---
+
+## i18n
+
+- Configure i18next with HTTP backend and browser language detector.
+- Translation JSON files per language in `public/locales/`.
+- Use `useTranslation()` in client components.
+- All user-facing text must use translation keys — no hardcoded strings.
+
+---
+
+## Environment Variables
+
+- Client-side: prefix with `NEXT_PUBLIC_`.
+- Validate all env vars at build time with Zod.
+- Server-only secrets have no prefix and are never exposed to the client.
+
+---
+
+## Key Principles
+
+1. **Separation of concerns**: Components render, hooks manage logic, services call APIs, utils transform data.
+2. **Colocation**: Keep things close to where they're used (column defs next to their table page, validators next to their form).
+3. **DRY through composition**: Build complex UIs by composing small, focused components — don't create monolith components.
+4. **URL as source of truth** for filters and pagination — every list view should be bookmarkable.
+5. **Type safety end-to-end**: API responses → types → form schemas → UI props.
+6. **Optimistic UX**: Show loading skeletons, disable buttons during mutations, give immediate toast feedback.
+7. **Fail gracefully**: Error boundaries catch crashes, toasts explain failures, fallback UI keeps the app usable.
