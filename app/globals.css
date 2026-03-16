@@ -6,7 +6,8 @@
   --panel: #ffffff;
   --border: #e7ebf3;
   --soft-text: #64748b;
-  --primary: #5b61f6;
+  --primary: #4acf7f;
+  --primary-light: #edfaf3;
 }
 
 @theme inline {
@@ -169,7 +170,7 @@ body {
   font-size: 14px;
   font-weight: 600;
   padding: 0 14px;
-  box-shadow: 0 8px 20px rgba(91, 97, 246, 0.25);
+  box-shadow: 0 8px 20px rgba(74, 207, 127, 0.28);
 }
 
 .dashboard-orders-card {

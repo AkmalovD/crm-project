@@ -1,5 +1,5 @@
-import { PlaceholderDashboardPage } from "@/components/dashboard/PlaceholderDashboardPage";
+import { MedicalDashboardPage } from "@/components/dashboard/MedicalDashboardPage";
 
 export default function DashboardPage() {
-  return <PlaceholderDashboardPage title="Dashboard" />;
+  return <MedicalDashboardPage />;
 }
