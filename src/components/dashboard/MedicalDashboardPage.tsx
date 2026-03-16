@@ -341,7 +341,7 @@ export function MedicalDashboardPage() {
           <div className="border border-(--border) rounded-[14px] bg-(--panel) p-5 px-[22px] flex flex-col">
             <div className="flex justify-between items-start">
               <h2 className="text-[15px] font-semibold text-slate-800 max-w-[180px] leading-[1.35]">
-                Implementation of the monthly plan
+                Upcoming Appointments Today
               </h2>
               <button
                 type="button"
