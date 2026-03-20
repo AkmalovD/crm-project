@@ -1,5 +1,5 @@
 import { FileDown } from "lucide-react";
-import { cx } from "./analyticsDashboardUtils";
+import { cx } from "../../utils/analyticsDashboardUtils";
 import styles from "./AnalyticsDashboardPage.module.css";
 
 export function AnalyticsPageHeader() {

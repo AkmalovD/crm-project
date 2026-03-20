@@ -1,5 +1,5 @@
 import { Activity, CalendarDays, DollarSign, Users } from "lucide-react";
-import { Patient, StatCardConfig } from "./medicalDashboardTypes";
+import { Patient, StatCardConfig } from "../../types/medicalDashboardTypes";
 
 export const PRIMARY = "#4acf7f";
 export const PAGE_SIZE = 10;

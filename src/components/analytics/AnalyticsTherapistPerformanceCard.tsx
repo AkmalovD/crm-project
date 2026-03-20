@@ -1,7 +1,7 @@
 import { Download, Search } from "lucide-react";
-import { THERAPIST_PAGE_SIZE, THERAPISTS } from "./analyticsDashboardData";
-import { TherapistItem, TherapistSortBy } from "./analyticsDashboardTypes";
-import { CURRENCY, NUMBER, cx } from "./analyticsDashboardUtils";
+import { THERAPIST_PAGE_SIZE, THERAPISTS } from "@/data/analyticsData/analyticsDashboardData";
+import { TherapistItem, TherapistSortBy } from "../../types/analyticsDashboardTypes";
+import { CURRENCY, NUMBER, cx } from "../../utils/analyticsDashboardUtils";
 import styles from "./AnalyticsDashboardPage.module.css";
 
 interface AnalyticsTherapistPerformanceCardProps {

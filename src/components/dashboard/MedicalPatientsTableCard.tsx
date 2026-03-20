@@ -1,5 +1,5 @@
-import { PAGE_SIZE } from "./medicalDashboardData";
-import { Patient } from "./medicalDashboardTypes";
+import { PAGE_SIZE } from "../../data/dashboardData/medicalDashboardData";
+import { Patient } from "../../types/medicalDashboardTypes";
 
 interface MedicalPatientsTableCardProps {
   patients: Patient[];

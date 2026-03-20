@@ -1,4 +1,4 @@
-import { STAT_CARDS } from "./medicalDashboardData";
+import { STAT_CARDS } from "../../data/dashboardData/medicalDashboardData";
 import { MedicalStatCard } from "./MedicalStatCard";
 
 export function MedicalStatsGrid() {

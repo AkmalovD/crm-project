@@ -1,4 +1,4 @@
-import { StatCardConfig } from "./medicalDashboardTypes";
+import { StatCardConfig } from "../../types/medicalDashboardTypes";
 
 export function MedicalStatCard({ label, value, delta, deltaPositive, link, Icon }: StatCardConfig) {
   return (

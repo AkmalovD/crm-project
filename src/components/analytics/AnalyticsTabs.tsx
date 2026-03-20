@@ -1,6 +1,6 @@
-import { TABS } from "./analyticsDashboardData";
-import { AnalyticsTab } from "./analyticsDashboardTypes";
-import { cx } from "./analyticsDashboardUtils";
+import { TABS } from "@/data/analyticsData/analyticsDashboardData";
+import { AnalyticsTab } from "../../types/analyticsDashboardTypes";
+import { cx } from "../../utils/analyticsDashboardUtils";
 import styles from "./AnalyticsDashboardPage.module.css";
 
 interface AnalyticsTabsProps {

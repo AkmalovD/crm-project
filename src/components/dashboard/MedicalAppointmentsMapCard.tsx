@@ -1,5 +1,5 @@
 import { Download } from "lucide-react";
-import { CITIES } from "./medicalDashboardData";
+import { CITIES } from "../../data/dashboardData/medicalDashboardData";
 
 function UkraineMap() {
   return (

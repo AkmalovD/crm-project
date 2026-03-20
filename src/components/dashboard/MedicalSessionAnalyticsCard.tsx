@@ -8,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { PRIMARY, SESSION_CHART_DATA } from "./medicalDashboardData";
+import { PRIMARY, SESSION_CHART_DATA } from "../../data/dashboardData/medicalDashboardData";
 
 interface MedicalSessionAnalyticsCardProps {
   chartPeriod: string;

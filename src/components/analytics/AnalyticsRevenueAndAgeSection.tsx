@@ -10,9 +10,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { AGE_DISTRIBUTION, MONTHLY_OVERVIEW, PRIMARY } from "./analyticsDashboardData";
-import { SeriesToggle } from "./analyticsDashboardTypes";
-import { CURRENCY, NUMBER, cx, normalizeNumericValue, formatPercentTooltip } from "./analyticsDashboardUtils";
+import { AGE_DISTRIBUTION, MONTHLY_OVERVIEW, PRIMARY } from "@/data/analyticsData/analyticsDashboardData";
+import { SeriesToggle } from "../../types/analyticsDashboardTypes";
+import { CURRENCY, NUMBER, cx, normalizeNumericValue, formatPercentTooltip } from "../../utils/analyticsDashboardUtils";
 import { AnalyticsChartCard } from "./AnalyticsChartCard";
 import styles from "./AnalyticsDashboardPage.module.css";
 

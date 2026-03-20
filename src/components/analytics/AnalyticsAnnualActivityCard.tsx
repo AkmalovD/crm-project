@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { MONTHLY_OVERVIEW } from "./analyticsDashboardData";
+import { MONTHLY_OVERVIEW } from "@/data/analyticsData/analyticsDashboardData";
 import { AnalyticsChartCard } from "./AnalyticsChartCard";
 
 interface AnalyticsAnnualActivityCardProps {

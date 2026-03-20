@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
-import { CANCELLATION_REASONS, HOURS } from "./analyticsDashboardData";
-import { formatPercentTooltip } from "./analyticsDashboardUtils";
+import { CANCELLATION_REASONS, HOURS } from "@/data/analyticsData/analyticsDashboardData";
+import { formatPercentTooltip } from "../../utils/analyticsDashboardUtils";
 import { AnalyticsChartCard } from "./AnalyticsChartCard";
 import styles from "./AnalyticsDashboardPage.module.css";
 

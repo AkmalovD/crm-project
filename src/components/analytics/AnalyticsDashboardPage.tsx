@@ -21,9 +21,9 @@ import {
   THERAPISTS,
   THERAPIST_PAGE_SIZE,
   WEEK_DAYS,
-} from "./analyticsDashboardData";
-import { AnalyticsTab, SeriesToggle, TherapistSortBy } from "./analyticsDashboardTypes";
-import { buildAnnualActivity } from "./analyticsDashboardUtils";
+} from "@/data/analyticsData/analyticsDashboardData";
+import { AnalyticsTab, SeriesToggle, TherapistSortBy } from "../../types/analyticsDashboardTypes";
+import { buildAnnualActivity } from "../../utils/analyticsDashboardUtils";
 
 export function AnalyticsDashboardPage() {
   const [activeTab, setActiveTab] = useState<AnalyticsTab>("Overview");

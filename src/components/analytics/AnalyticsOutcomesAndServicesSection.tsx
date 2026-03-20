@@ -1,6 +1,6 @@
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { OUTCOME_DATA, SERVICES_BY_REVENUE } from "./analyticsDashboardData";
-import { formatCountTooltip, formatRevenueTooltip, NUMBER } from "./analyticsDashboardUtils";
+import { OUTCOME_DATA, SERVICES_BY_REVENUE } from "@/data/analyticsData/analyticsDashboardData";
+import { formatCountTooltip, formatRevenueTooltip, NUMBER } from "../../utils/analyticsDashboardUtils";
 import { AnalyticsChartCard } from "./AnalyticsChartCard";
 import styles from "./AnalyticsDashboardPage.module.css";
 

@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { DashboardScaffold } from "./DashboardScaffold";
-import { MOCK_PATIENTS, PAGE_SIZE } from "./medicalDashboardData";
+import { MOCK_PATIENTS, PAGE_SIZE } from "../../data/dashboardData/medicalDashboardData";
 import { MedicalAppointmentsMapCard } from "./MedicalAppointmentsMapCard";
 import { MedicalDashboardHeader } from "./MedicalDashboardHeader";
 import { MedicalDashboardTopBar } from "./MedicalDashboardTopBar";

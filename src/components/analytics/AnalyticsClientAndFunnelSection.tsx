@@ -1,6 +1,6 @@
 import { Bar, BarChart, CartesianGrid, Cell, Funnel, FunnelChart, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { FUNNEL_DATA, MONTHLY_OVERVIEW, PRIMARY } from "./analyticsDashboardData";
-import { formatCountTooltip } from "./analyticsDashboardUtils";
+import { FUNNEL_DATA, MONTHLY_OVERVIEW, PRIMARY } from "@/data/analyticsData/analyticsDashboardData";
+import { formatCountTooltip } from "../../utils/analyticsDashboardUtils";
 import { AnalyticsChartCard } from "./AnalyticsChartCard";
 import styles from "./AnalyticsDashboardPage.module.css";
 

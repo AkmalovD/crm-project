@@ -1,8 +1,8 @@
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { Line, LineChart, ResponsiveContainer } from "recharts";
-import { PRIMARY } from "./analyticsDashboardData";
-import { KpiItem } from "./analyticsDashboardTypes";
-import { NUMBER, CURRENCY, cx, formatCompactPercent } from "./analyticsDashboardUtils";
+import { PRIMARY } from "@/data/analyticsData/analyticsDashboardData";
+import { KpiItem } from "../../types/analyticsDashboardTypes";
+import { NUMBER, CURRENCY, cx, formatCompactPercent } from "../../utils/analyticsDashboardUtils";
 import styles from "./AnalyticsDashboardPage.module.css";
 
 export function AnalyticsKpiCard({ label, value, trend, suffix, spark, valueSuffix }: KpiItem) {

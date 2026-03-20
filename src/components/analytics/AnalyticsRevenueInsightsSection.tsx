@@ -1,6 +1,6 @@
 import { Area, AreaChart, CartesianGrid, Cell, Legend, Pie, PieChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { MONTHLY_OVERVIEW, PRIMARY, SERVICES_BY_REVENUE } from "./analyticsDashboardData";
-import { formatRevenueTooltip } from "./analyticsDashboardUtils";
+import { MONTHLY_OVERVIEW, PRIMARY, SERVICES_BY_REVENUE } from "@/data/analyticsData/analyticsDashboardData";
+import { formatRevenueTooltip } from "../../utils/analyticsDashboardUtils";
 import { AnalyticsChartCard } from "./AnalyticsChartCard";
 import styles from "./AnalyticsDashboardPage.module.css";
 
