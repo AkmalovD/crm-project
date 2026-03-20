@@ -131,6 +131,28 @@ Wizard pages:
 - Props: `title`, `rightContent` slot, `onBack`.
 - Used on every page for visual consistency.
 
+### Mandatory Dashboard Page Decomposition
+
+- Never create monolithic `*Page.tsx` dashboard files. Split every complex page into small, focused components in the same feature folder.
+- Keep page container files thin (target: orchestration only, usually under ~120 lines).
+- Page containers may own local UI state (`useState`, `useMemo`) and wire handlers, but must not contain large JSX blocks for sections/cards/tables/charts.
+- Extract each major section into its own component with clear names, e.g.:
+  - `MedicalDashboardTopBar`
+  - `MedicalDashboardHeader`
+  - `MedicalStatsGrid`
+  - `MedicalSessionAnalyticsCard`
+  - `MedicalAppointmentsMapCard`
+  - `MedicalPatientsTableCard`
+- Extract repeated UI pieces into reusable leaf components (example: `MedicalStatCard`) instead of duplicating JSX.
+- Move domain models and static/mock data out of page containers into:
+  - `featureDashboardTypes.ts` (interfaces and shared types)
+  - `featureDashboardData.ts` (constants, mock arrays, card configs, chart data)
+- Keep presentational components stateless whenever possible; pass data and callbacks via typed props.
+- Enforce one responsibility per component: each component should represent one section/card/table and be easily reusable or testable.
+- Use feature-consistent naming: all extracted files for a page share a feature prefix (example: `Medical*` for `MedicalDashboardPage`).
+- Prefer composition over prop-heavy mega-components; if a component grows too large, split again into smaller children.
+- Keep files in `src/components/<feature>/` colocated with the page component.
+
 ---
 
 ## Form Patterns
