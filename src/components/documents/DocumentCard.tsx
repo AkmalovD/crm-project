@@ -44,7 +44,11 @@ export function DocumentCard({
             {fileIcon(document.fileType)} {FILE_TYPE_LABELS[document.fileType]}
           </span>
         </label>
-        {document.isConfidential && <Lock size={14} title="Confidential" />}
+        {document.isConfidential && (
+          <span title="Confidential">
+            <Lock size={14} aria-label="Confidential" />
+          </span>
+        )}
       </div>
 
       <p className={styles.docName}>{document.name}</p>
