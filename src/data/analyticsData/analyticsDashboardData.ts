@@ -1,4 +1,4 @@
-import { KpiItem, MonthlyOverviewItem, TherapistItem } from "./analyticsDashboardTypes";
+import { KpiItem, MonthlyOverviewItem, TherapistItem } from "@/types/analyticsDashboardTypes"
 
 export const PRIMARY = "#4acf7f";
 export const TABS = ["Overview", "Sessions", "Revenue", "Clients", "Therapists"] as const;

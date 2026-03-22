@@ -1,4 +1,4 @@
-import { Client, ClientStatus, Therapist, TherapyType } from "./clientsDashboardTypes";
+import { Client, ClientStatus, Therapist, TherapyType } from "@/types/clientsDashboardTypes";
 
 export const THERAPISTS: Therapist[] = [
   { id: "t-1", name: "Dr. Mia Carter" },
